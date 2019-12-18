@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pacman</title>
+    <!-- style tags are for css code -->
+    <style media="screen">
+      #blue{
+        color: blue;
+      }
+      .red{
+        color: red;
+      }
+      .wall{
+        background-image: url('wall.png');
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+      }
+      .coin{
+        background-image: url('coin.gif');
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+      }
+      .pacman{
+        background-image: url('pacman.gif');
+        display: inline-block;
+        background-size: cover;
+        height: 50px;
+        width: 50px;
+      }
+      .blank{
+        height: 50px;
+        width: 50px;
+        display: inline-block;
+      }
+      .ghost{
+        background-image: url('ghost1.png');
+        display: inline-block;
+        background-size: cover;
+        height: 50px;
+        width: 50px;
+      }
+    </style>
+  </head>
+  <!-- body tags are for html code -->
+  <body>
+    pac man game
+    <h1 id="blue">pac man game</h1>
+    <h1 class="red">hello world</h1>
+    <div id="world"></div>
+    <div id='score'><div>
+  </body>
+  <!-- script tags are for javascript code -->
+  <script type="text/javascript">
+    // set up the grid
+    map = [
+      [1,1,1,1],
+      [1,2,0,1],
+      [1,0,4,1],
+      [1,1,1,1]
+    ]
+    // keep track of where pacman is on the grid
+    position = {
+      x:1,
+      y:1
+    }
+    //
+    function update_world(){
+      world_builder = ''
+      // apply style to the grid
+      for(i=0; i < map.length; i = i + 1){
+        for(j=0; j < map[i].length; j = j + 1){
+          if(map[i][j] === 1){
+            world_builder += "<div class='wall'></div>"
+          }
+          else if (map[i][j] === 0) {
+            world_builder += "<div class='coin'></div>"
+          }
+          else if (map[i][j] === 2) {
+            world_builder += "<div class='pacman'></div>"
+          }
+          else if (map[i][j] === 3) {
+            world_builder += "<div class='blank'></div>"
+          }
+          else if (map[i][j] === 4) {
+            world_builder += "<div class='ghost'></div>"
+          }
+        }
+        world_builder += '<br>';
+      }
+      // applys the world to the html
+      document.getElementById('world').innerHTML = world_builder
+      // applys the score to the html
+      document.getElementById('score').innerHTML = score
+    }
+    score = 0;
+    // updates score
+    function update_score(){
+      score = score + 100
+    }
+    // display the world on page load
+    update_world();
+    // create a function to run every time an keyboard event happens
+    document.onkeydown = function (event) {
+      console.log(event);
+      // move pacman up
+      if(event.keyCode === 38 && map[position.y-1][position.x] != 1){
+        // add points when pacman eats a coin
+        if(map[position.y-1][position.x] === 0){
+          update_score();
+        }
+        // check for ghost
+        if(map[position.y-1][position.x] === 4){
+          alert('Game over')
+        }
+        // update where pacman going
+        map[position.y-1][position.x] = 2;
+        // update where pacman is
+        map[position.y][position.x] = 3;
+        // update pacmans position
+        position.y = position.y - 1;
+      }
+      // move pacman right
+      else if(event.keyCode === 39 && map[position.y][position.x+1] !=1){
+        // add points when pacman eats a coin
+        if(map[position.y][position.x+1] === 0){
+          update_score();
+        }
+        // check for ghost
+        if(map[position.y][position.x+1] === 4){
+          alert('Game over')
+        }
+        // update where pacman going
+        map[position.y][position.x+1] = 2;
+        // update where pacman is
+        map[position.y][position.x] = 3;
+        // update pacmans position
+        position.x = position.x + 1;
+      }
+      // move pacman down
+      else if(event.keyCode === 40 && map[position.y+1][position.x] != 1){
+        // add points when pacman eats a coin
+        if(map[position.y+1][position.x] === 0){
+          update_score();
+        }
+        // check for ghost
+        if(map[position.y+1][position.x] === 4){
+          alert('Game over')
+        }
+        // update where pacman going
+        map[position.y+1][position.x] = 2;
+        // update where pacman is
+        map[position.y][position.x] = 3;
+        // update pacmans position
+        position.y = position.y + 1;
+      }
+      // move pacman left
+      else if(event.keyCode === 37 && map[position.y][position.x-1] !=1){
+        // add points when pacman eats a coin
+        if(map[position.y][position.x-1] === 0){
+          update_score();
+        }
+        // check for ghost
+        if(map[position.y][position.x-1] === 4){
+          alert('Game over');
+        }
+        // update where pacman going
+        map[position.y][position.x-1] = 2;
+        // update where pacman is
+        map[position.y][position.x] = 3;
+        // update pacmans position
+        position.x = position.x - 1;
+      }
+      update_world();
+    }
+  </script>
+
+</html>

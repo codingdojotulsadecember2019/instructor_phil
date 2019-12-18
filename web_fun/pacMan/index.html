@@ -1,0 +1,167 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <style>
+    #container {
+      background-color: black;
+      margin: 0 auto;
+      height: 95%;
+      width: 95%;
+    }
+    #world {
+      margin: 0 auto;
+      position: relative;
+    }
+    .blank, .coin, #pacman {
+      height: 50px;
+      width: 50px;
+      display: inline-block;
+    }
+    .coin {
+      background-image: url('./images/coin.gif');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #pacman {
+      background-image: url('./images/pacman.gif');
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      transform: rotate(0deg);
+    }
+    #score {
+      color: white;
+      font-size: 24px;
+      padding: 8px 12px;
+      border: 1px solid white;
+      width: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="score"></div>
+    <div id="world"></div>
+  </div>
+  <script>
+    var score = 0;
+    var map = [
+      [2,2,2,2,2,2,2,2,2,2,2],
+      [2,0,1,1,1,1,1,1,1,1,2],
+      [2,1,2,2,2,1,2,2,2,1,2],
+      [2,1,2,1,1,1,1,1,2,1,2],
+      [2,1,2,1,1,1,1,1,2,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,1,2,1,1,1,1,1,2,1,2],
+      [2,1,2,1,1,1,1,1,2,1,2],
+      [2,1,2,2,2,1,2,2,2,1,2],
+      [2,1,1,1,1,1,1,1,1,1,2],
+      [2,2,2,2,2,2,2,2,2,2,2],
+    ];
+
+    var worldDiv = document.getElementById("world");
+    console.log(worldDiv);
+    console.log(typeof(worldDiv));
+    
+    // display the board with coins, walls and blank divs
+    function updateWorld() {
+      var worldBuilder = ``;
+      for(var y = 0; y < map.length; y++) {
+        worldBuilder += `<div class="row">`;
+          for(var x = 0; x < map[y].length; x++) {
+            if(map[y][x] ==  2) {
+              worldBuilder += `<img src="images/wall.png" alt="wall">`;
+            } else if(map[y][x] == 0) {
+              worldBuilder += `<div class="blank"></div>`;
+            } else if(map[y][x] == 1) {
+              worldBuilder += `<div class="coin"></div>`;
+            }
+          }
+          worldBuilder += `</div>`;
+        }
+        worldBuilder += `<div id="pacman"></div>`;
+
+        worldDiv.innerHTML = worldBuilder;
+      }
+
+      function displayPacman() {
+        // document.getElementById("pacman").style.top = pacman["top"] * 50 + 'px';
+        // document.getElementById("pacman").style.left = pacman["left"] * 50 + 'px';
+        // document.getElementById("pacman").style.transform = `rotate(${direction}deg)`;
+        // below is jQuery version of ^^^
+        $('#pacman').css("top", pacman["top"] * 50 + 'px');
+        $('#pacman').css("left", pacman["left"] * 50 + 'px');
+        $('#pacman').css("transform", `rotate(${direction}deg)`);
+      }
+
+      function displayScore() {
+        console.log(`The current score is: ${score}`);
+        // document.getElementById("score").innerText = score;
+        // below is jQuery version of ^^^
+        $('#score').text(score);
+      }
+
+      // keeps track of where pacman is in the world
+      var pacman = {
+        "top": 1,
+        "left": 1
+      };
+      // keeps track of what direction pacman is going
+      var direction = 0;
+      
+      function movePacman(event) {
+        console.log(event.keyCode);
+        if(event.keyCode == 37 && map[pacman["top"]][pacman["left"] - 1] != 2) {
+          // move pacman left
+          pacman["left"] -= 1;
+          direction = 180;
+        } else if(event.keyCode == 38 && map[pacman["top"] - 1][pacman["left"]] != 2) {
+          // move pacman up
+          pacman["top"] -= 1;
+          direction = 270;
+        } else if(event.keyCode == 39 && map[pacman["top"]][pacman["left"] + 1] != 2) {
+          // move pacman right
+          pacman["left"] += 1
+          direction = 0;
+        } else if(event.keyCode == 40 && map[pacman["top"] + 1][pacman["left"]] != 2) {
+          // move pacman down
+          pacman["top"] += 1;
+          direction = 90;
+        }
+
+        
+        // check for coin in map
+        if(map[pacman["top"]][pacman["left"]] == 1) {
+          // update score
+          score += 10;
+          // change map to blank
+          map[pacman["top"]][pacman["left"]] = 0;
+        }
+        // update the world with the changed map
+        updateWorld();
+        // updates pacmans position
+        displayPacman();
+        // updates pacmans score
+        displayScore();
+      }
+  
+      // use jQuery to detect the key Press
+      $(document).keydown(movePacman);
+
+    // event to move pacman
+    // document.onkeydown = function(event) {
+      
+    // }
+
+    // initial functions needed
+    updateWorld();
+    displayScore();
+  </script>
+</body>
+</html>
