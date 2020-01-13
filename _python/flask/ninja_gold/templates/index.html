@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ninja Gold</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/bootstrap.css') }} ">
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-12">
+                <h3>Your Gold: <span class="border border-dark px-5 py-1">{{ session['random_number'] }}</span></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <!-- <a href="/play_again" class="btn btn-info">Play Again!</a> -->
+                <form action="/play_again" method="get">
+                    <input type="hidden" name="test" value="ing">
+                    <button class="btn btn-warning">test</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Farm</h4>
+                        <p class="card-text">(earns 10 - 20 golds)</p>
+                        <form action="/process_money/farm" method="post">
+                            <input type="hidden" name="building" value="farm" />
+                            <input class="btn btn-primary" type="submit" value="Find Gold!"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Cave</h4>
+                        <p class="card-text">(earns 5 - 10 golds)</p>
+                        <form action="/process_money/cave" method="post">
+                            <input type="hidden" name="building" value="cave" />
+                            <input class="btn btn-primary" type="submit" value="Find Gold!"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">House</h4>
+                        <p class="card-text">(earns 2 - 5 golds)</p>
+                        <form action="/process_money/house" method="post">
+                            <input type="hidden" name="building" value="house" />
+                            <input class="btn btn-primary" type="submit" value="Find Gold!"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Casino</h4>
+                        <p class="card-text">(earns/takes 0 - 50 golds)</p>
+                        <form action="/process_money/casino" method="post">
+                            <input type="hidden" name="building" value="casino" />
+                            <input class="btn btn-primary" type="submit" value="Find Gold!"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Activities:</h3>
+                <div class="card">
+                    <div class="card-body">
+                        {% for activity in session['activities'] | reverse %}
+                            {{ activity | safe }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
