@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Planets and Moons</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
+</head>
+<body>
+    <div class="flex-container">
+        <div>
+            <h1>Add Planets</h1>
+            <form action="/planets" method="post">
+                {% csrf_token %}
+                <p>Name:</p>
+                <input type="text" name="name">
+                <br>
+                <p>Size:</p>
+                <input type="number" name="size" id="">
+                <br>
+                <button>Add Planet</button>
+            </form>
+        </div>
+        <div>
+            <h1>All Planets</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for planet in planets %}
+                        <tr>
+                            <td><a href="/planets/{{ planet.id }}">{{ planet.name }}</a></td>
+                            <td>{{ planet.size }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Planets and Moons</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
+</head>
+<body>
+    <div class="flex-container">
+    
+        <div>
+            <h1>{{ one_planet.name  }}</h1>
+            <h3>{{ one_planet.size }}</h3>
+            <h6>Number of moons: {{ one_planet.moons.count }}</h6>
+            <h6>Moon name</h6>
+            <ul>
+                {% for moon in one_planet.moons.all %}
+                    <li>{{ moon.name }}</li>
+                {% endfor %}
+            </ul>
+            <a href="/">Home</a>
+            <form action="/moons/{{ one_planet.id }}" method="post">
+                {% csrf_token %}
+                <p>Name</p>
+                <input type="text" name="name" id="">
+                <br>
+                <button>Add Moon</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

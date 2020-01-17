@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+.flex-container {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+}
+.flex-container > div {
+    width: 40%;
+    text-align: center;
+    margin: 15px;
+}
+div {
+    border: 1px solid black;
+    border-radius: 25px;
+}
