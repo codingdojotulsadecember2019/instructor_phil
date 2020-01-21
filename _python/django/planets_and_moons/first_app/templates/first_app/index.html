@@ -11,19 +11,6 @@
 <body>
     <div class="flex-container">
         <div>
-            <h1>Add Planets</h1>
-            <form action="/planets" method="post">
-                {% csrf_token %}
-                <p>Name:</p>
-                <input type="text" name="name">
-                <br>
-                <p>Size:</p>
-                <input type="number" name="size" id="">
-                <br>
-                <button>Add Planet</button>
-            </form>
-        </div>
-        <div>
             <h1>All Planets</h1>
             <table>
                 <thead>
@@ -33,14 +20,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for planet in planets %}
+                    {% for p in planets %}
                         <tr>
-                            <td><a href="/planets/{{ planet.id }}">{{ planet.name }}</a></td>
-                            <td>{{ planet.size }}</td>
+                            <td><a href="/planets/{{ p.id }}">{{ p.name }}</a></td>
+                            <td>{{ p.size }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            <a href="/planets/new">Add Planet</a>
         </div>
     </div>
 </body>

@@ -21,7 +21,7 @@
                     <li>{{ moon.name }}</li>
                 {% endfor %}
             </ul>
-            <a href="/">Home</a>
+            <a href="/planets">Home</a>
             <form action="/moons/{{ one_planet.id }}" method="post">
                 {% csrf_token %}
                 <p>Name</p>
