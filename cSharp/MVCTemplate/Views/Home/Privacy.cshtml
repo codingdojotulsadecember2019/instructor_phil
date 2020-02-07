@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+@model string[]
+
+<h1>@ViewData["Title"]</h1>
+@{foreach(var user in Model)
+{
+    <p>@user</p>
+}}
